@@ -143,8 +143,8 @@
 
     .smoke {
       position: absolute;
-      left: 49%;
-      top: 0;
+      left: 62%;
+      top: -18%;
       width: 46px;
       height: 64px;
       transform: translateX(-50%);
@@ -174,69 +174,13 @@
       display: none;
     }
 
-    .photo-window {
-      position: absolute;
-      width: 8%;
-      height: 9%;
-      border-radius: 50%;
-      background: rgba(30, 18, 24, .56);
-      overflow: hidden;
-      box-shadow:
-        inset 0 0 8px rgba(0, 0, 0, .34),
-        0 0 0 2px rgba(255, 210, 122, .42);
-      transition: background .35s ease, box-shadow .35s ease;
-      z-index: 3;
-    }
-
-    .photo-window.left {
-      left: 33%;
-      top: 62%;
-    }
-
-    .photo-window.right {
-      right: 20%;
-      top: 55%;
-      width: 11%;
-      height: 13%;
-    }
-
-    .house.is-lit .photo-window {
-      background: rgba(255, 210, 84, .92);
-      box-shadow:
-        inset 0 0 8px rgba(255, 255, 255, .28),
-        0 0 18px rgba(255, 207, 75, .92);
-    }
-
-    .dancers {
-      position: absolute;
-      inset: 17% 12% 8%;
-      opacity: 0;
-      transition: opacity .25s ease;
-    }
-
-    .house.is-lit .dancers {
-      opacity: 1;
-      animation: dance .55s ease-in-out infinite alternate;
-    }
-
-    .dancers::before,
-    .dancers::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      width: 28%;
-      height: 76%;
-      border-radius: 999px 999px 3px 3px;
-      background: #47213a;
-    }
-
-    .dancers::before {
-      left: 18%;
-    }
-
-    .dancers::after {
-      right: 18%;
-      background: #1e4e62;
+    .house.is-lit .house-photo {
+      filter:
+        saturate(1.18)
+        contrast(1.06)
+        brightness(1.08)
+        drop-shadow(0 0 14px rgba(255, 195, 72, .28))
+        drop-shadow(10px 14px 8px rgba(32, 13, 9, .24));
     }
 
     .snow-pile {
@@ -410,11 +354,6 @@
       }
     }
 
-    @keyframes dance {
-      from { transform: translateX(-5%) rotate(-5deg); }
-      to { transform: translateX(5%) rotate(5deg); }
-    }
-
     @keyframes smoke-rise {
       0% {
         transform: translate3d(0, 0, 0) scale(.48);
@@ -468,10 +407,6 @@
               <span style="--sx: 39%; --ss: 15px; --sd: 0s; --smoke-dx: -5px;"></span>
               <span style="--sx: 32%; --ss: 20px; --sd: .8s; --smoke-dx: 2px;"></span>
               <span style="--sx: 42%; --ss: 17px; --sd: 1.7s; --smoke-dx: 7px;"></span>
-            </div>
-            <div class="photo-window left"><div class="dancers"></div></div>
-            <div class="photo-window right">
-              <div class="dancers"></div>
             </div>
           </div>
 
