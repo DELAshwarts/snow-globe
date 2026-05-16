@@ -117,15 +117,32 @@
     }
 
     .drift.left {
-      left: 18%;
+      left: 13%;
     }
 
     .drift.right {
-      right: 16%;
+      right: 11%;
       width: 34%;
     }
 
-    .snowing .drift {
+    .drift.center {
+      left: 34%;
+      bottom: 11%;
+      width: 32%;
+      height: 10%;
+      z-index: 4;
+    }
+
+    .drift.front {
+      left: 27%;
+      bottom: 8%;
+      width: 47%;
+      height: 9%;
+      z-index: 7;
+    }
+
+    .snowing .drift,
+    .snow-settled .drift {
       opacity: 1;
       transform: scaleY(1);
     }
@@ -171,6 +188,54 @@
       background: linear-gradient(130deg, #7e241b, #4d1713);
       box-shadow: inset 0 -12px 0 rgba(241, 235, 211, .72);
       z-index: 2;
+    }
+
+    .chimney {
+      position: absolute;
+      right: 25%;
+      top: 7%;
+      width: 13%;
+      height: 24%;
+      border-radius: 4px 4px 1px 1px;
+      background:
+        repeating-linear-gradient(180deg, rgba(255, 235, 195, .24) 0 5px, transparent 5px 10px),
+        linear-gradient(100deg, #8d3c27, #4d1f18);
+      box-shadow: inset -5px 0 0 rgba(45, 18, 12, .28), 4px 3px 0 rgba(58, 21, 13, .18);
+      z-index: 3;
+    }
+
+    .chimney::before {
+      content: "";
+      position: absolute;
+      left: -10%;
+      right: -10%;
+      top: -7px;
+      height: 9px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #fff0cf, #7f3324);
+    }
+
+    .smoke {
+      position: absolute;
+      right: 20%;
+      top: -15%;
+      width: 34%;
+      height: 35%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .smoke span {
+      position: absolute;
+      bottom: 0;
+      left: var(--sx);
+      width: var(--ss);
+      height: var(--ss);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .78);
+      filter: blur(1px);
+      animation: smoke-rise 3.2s ease-in-out infinite;
+      animation-delay: var(--sd);
     }
 
     .walls {
@@ -317,8 +382,7 @@
       background: var(--snow);
       box-shadow: 0 0 8px rgba(255,255,255,.82);
       opacity: .95;
-      animation: fall var(--d) linear forwards;
-      animation-delay: var(--delay);
+      animation: fall 10s linear forwards;
     }
 
     .spring {
@@ -428,14 +492,28 @@
         opacity: .95;
       }
       100% {
-        transform: translate3d(var(--dx), 98vh, 0);
-        opacity: .15;
+        transform: translate3d(var(--dx), var(--dy), 0);
+        opacity: .18;
       }
     }
 
     @keyframes dance {
       from { transform: translateX(-5%) rotate(-5deg); }
       to { transform: translateX(5%) rotate(5deg); }
+    }
+
+    @keyframes smoke-rise {
+      0% {
+        transform: translate3d(0, 0, 0) scale(.48);
+        opacity: 0;
+      }
+      18% {
+        opacity: .86;
+      }
+      100% {
+        transform: translate3d(var(--smoke-dx), -72px, 0) scale(1.35);
+        opacity: 0;
+      }
     }
 
     @media (max-width: 520px) {
@@ -465,7 +543,15 @@
           <div class="ground"></div>
           <div class="drift left"></div>
           <div class="drift right"></div>
+          <div class="drift center"></div>
+          <div class="drift front"></div>
           <div class="house" id="house">
+            <div class="smoke" aria-hidden="true">
+              <span style="--sx: 8%; --ss: 16px; --sd: 0s; --smoke-dx: -9px;"></span>
+              <span style="--sx: 35%; --ss: 21px; --sd: .8s; --smoke-dx: 4px;"></span>
+              <span style="--sx: 60%; --ss: 18px; --sd: 1.7s; --smoke-dx: 13px;"></span>
+            </div>
+            <div class="chimney"></div>
             <div class="roof-side"></div>
             <div class="roof"></div>
             <div class="side-wall"></div>
@@ -551,17 +637,15 @@
       for (let i = 0; i < 120; i += 1) {
         const flake = document.createElement("span");
         const size = 3 + Math.random() * 5;
-        const duration = 5.8 + Math.random() * 4.2;
-        const delay = Math.random() * 1.8;
         const x = 8 + Math.random() * 84;
         const dx = `${-42 + Math.random() * 84}px`;
+        const dy = `calc(var(--globe-size) * ${0.94 + Math.random() * 0.12})`;
 
         flake.className = "flake";
         flake.style.setProperty("--x", `${x}%`);
         flake.style.setProperty("--s", `${size}px`);
-        flake.style.setProperty("--d", `${duration}s`);
-        flake.style.setProperty("--delay", `${delay}s`);
         flake.style.setProperty("--dx", dx);
+        flake.style.setProperty("--dy", dy);
         flakes.appendChild(flake);
       }
     }
@@ -579,6 +663,7 @@
       button.disabled = true;
       flakes.innerHTML = "";
       globe.classList.remove("snowing");
+      globe.classList.remove("snow-settled");
       house.classList.remove("party");
 
       restartAnimation(globeWrap, "shake");
@@ -594,7 +679,9 @@
       window.setTimeout(() => {
         stopMelody();
         globe.classList.remove("snowing");
+        globe.classList.add("snow-settled");
         house.classList.remove("party");
+        flakes.innerHTML = "";
         button.disabled = false;
         isRunning = false;
       }, 11000);
