@@ -160,56 +160,40 @@
 
     .roof {
       position: absolute;
-      left: 6%;
-      top: 7%;
-      width: 62%;
-      height: 36%;
-      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+      left: 4%;
+      top: 3%;
+      width: 87%;
+      height: 42%;
+      clip-path: polygon(50% 0, 100% 92%, 0 92%);
       background:
         radial-gradient(circle at 20% 54%, #fff4d7 0 5%, transparent 6%),
         radial-gradient(circle at 38% 42%, #e6414c 0 5%, transparent 6%),
         radial-gradient(circle at 58% 53%, #59c8b8 0 5%, transparent 6%),
         radial-gradient(circle at 76% 43%, #fff4d7 0 5%, transparent 6%),
-        linear-gradient(145deg, #c94733 0%, #7b231b 78%);
+        linear-gradient(112deg, #e05a3d 0 42%, #b6382a 43% 62%, #682019 100%);
       box-shadow:
-        inset -16px -10px 0 rgba(86, 28, 17, .34),
-        inset 0 -15px 0 rgba(255, 248, 226, .95),
+        inset -22px -12px 0 rgba(63, 19, 13, .24),
+        inset 18px 8px 0 rgba(255, 149, 99, .16),
         8px 9px 0 rgba(62, 25, 12, .24);
-      z-index: 4;
+      z-index: 5;
     }
 
     .roof::after {
       content: "";
       position: absolute;
-      left: 3%;
-      right: 3%;
-      bottom: 5%;
+      left: 8%;
+      right: 8%;
+      bottom: 8%;
       height: 14px;
       border-radius: 999px;
       background: rgba(255, 248, 226, .96);
       box-shadow: 0 3px 0 rgba(93, 31, 18, .18);
     }
 
-    .roof-side {
-      position: absolute;
-      left: 55%;
-      top: 7%;
-      width: 36%;
-      height: 36%;
-      clip-path: polygon(0 0, 100% 30%, 100% 100%, 0 100%);
-      background:
-        radial-gradient(circle at 56% 48%, #fff4d7 0 6%, transparent 7%),
-        linear-gradient(130deg, #8d2a20 0%, #4d1713 82%);
-      box-shadow:
-        inset -10px -8px 0 rgba(38, 14, 10, .25),
-        inset 0 -13px 0 rgba(241, 235, 211, .78);
-      z-index: 3;
-    }
-
     .chimney {
       position: absolute;
-      left: 22%;
-      top: 0;
+      left: 25%;
+      top: -1%;
       width: 14%;
       height: 29%;
       border: 2px solid rgba(255, 232, 190, .62);
@@ -584,7 +568,6 @@
               <span style="--sx: 60%; --ss: 18px; --sd: 1.7s; --smoke-dx: 13px;"></span>
             </div>
             <div class="chimney"></div>
-            <div class="roof-side"></div>
             <div class="roof"></div>
             <div class="side-wall"></div>
             <div class="walls">
