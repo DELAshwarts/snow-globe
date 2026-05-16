@@ -237,21 +237,23 @@
       border-radius: 50%;
       background: radial-gradient(ellipse at center, #fff7dc 0 32%, #b75d37 35% 68%, #552016 70% 100%);
       box-shadow: 0 2px 0 rgba(54, 20, 13, .32);
+      z-index: 2;
     }
 
     .smoke {
       position: absolute;
-      left: 25%;
-      top: -28%;
-      width: 14%;
-      height: 36%;
+      left: 50%;
+      bottom: calc(100% + 1px);
+      width: 46px;
+      height: 62px;
       pointer-events: none;
+      transform: translateX(-50%);
       z-index: 10;
     }
 
     .smoke span {
       position: absolute;
-      bottom: 0;
+      bottom: -2px;
       left: var(--sx);
       width: var(--ss);
       height: var(--ss);
@@ -581,12 +583,13 @@
           <div class="drift center"></div>
           <div class="drift front"></div>
           <div class="house" id="house">
-            <div class="smoke" aria-hidden="true">
-              <span style="--sx: 28%; --ss: 15px; --sd: 0s; --smoke-dx: -5px;"></span>
-              <span style="--sx: 18%; --ss: 20px; --sd: .8s; --smoke-dx: 2px;"></span>
-              <span style="--sx: 32%; --ss: 17px; --sd: 1.7s; --smoke-dx: 7px;"></span>
+            <div class="chimney">
+              <div class="smoke" aria-hidden="true">
+                <span style="--sx: 39%; --ss: 15px; --sd: 0s; --smoke-dx: -5px;"></span>
+                <span style="--sx: 32%; --ss: 20px; --sd: .8s; --smoke-dx: 2px;"></span>
+                <span style="--sx: 42%; --ss: 17px; --sd: 1.7s; --smoke-dx: 7px;"></span>
+              </div>
             </div>
-            <div class="chimney"></div>
             <div class="roof"></div>
             <div class="side-wall"></div>
             <div class="walls">
