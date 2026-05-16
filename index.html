@@ -72,9 +72,9 @@
       border-radius: 50%;
       background:
         radial-gradient(circle at 30% 21%, rgba(255, 255, 255, .82) 0 4%, rgba(255, 255, 255, .24) 13%, transparent 27%),
-        radial-gradient(circle at 67% 73%, rgba(255, 255, 255, .10), transparent 40%),
-        radial-gradient(circle at 50% 50%, rgba(85, 93, 132, .34) 0 62%, rgba(57, 63, 99, .42) 76%, rgba(18, 27, 53, .58) 100%),
-        linear-gradient(180deg, rgba(70, 72, 111, .82), rgba(70, 72, 111, .82));
+        radial-gradient(circle at 67% 73%, rgba(255, 255, 255, .14), transparent 40%),
+        radial-gradient(circle at 50% 50%, var(--glass-blue) 0 58%, rgba(38, 91, 137, .36) 73%, rgba(7, 22, 41, .56) 100%),
+        linear-gradient(180deg, rgba(90, 149, 195, .50), rgba(17, 43, 75, .88));
       box-shadow:
         inset 0 0 0 20px rgba(238, 250, 255, .07),
         inset 0 0 46px rgba(236, 250, 255, .18),
@@ -131,12 +131,11 @@
     .house-photo {
       position: absolute;
       left: 50%;
-      bottom: -14%;
-      width: 170%;
+      bottom: -9%;
+      width: 152%;
       max-width: none;
       height: auto;
       transform: translateX(-50%);
-      clip-path: polygon(29% 100%, 29% 62%, 33% 62%, 33% 43%, 38% 39%, 44% 18%, 50% 1%, 55% 18%, 65% 24%, 78% 37%, 85% 58%, 85% 100%);
       filter: saturate(1.08) contrast(1.03) drop-shadow(10px 14px 8px rgba(32, 13, 9, .24));
       user-select: none;
       z-index: 1;
