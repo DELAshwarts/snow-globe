@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Снежный шар</title>
+  <style>
+    :root {
+      --globe-size: min(72vw, 430px);
+      --gold: #d7a632;
+      --gold-dark: #8f6418;
+      --night: #1a2846;
+      --snow: #f8fbff;
+      --glass: rgba(216, 239, 255, 0.34);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      color: #f9fbff;
+      background:
+        radial-gradient(circle at 30% 18%, #385987 0 12%, transparent 32%),
+        linear-gradient(145deg, #141b2f 0%, #253c5f 44%, #182033 100%);
+    }
+
+    .app {
+      width: min(94vw, 760px);
+      min-height: min(94vh, 780px);
+      display: grid;
+      grid-template-rows: 1fr auto;
+      justify-items: center;
+      align-items: end;
+      gap: 20px;
+      padding: 34px 16px 28px;
+    }
+
+    .scene {
+      position: relative;
+      width: var(--globe-size);
+      height: calc(var(--globe-size) + 150px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .globe-wrap {
+      position: relative;
+      width: var(--globe-size);
+      height: var(--globe-size);
+      transform-origin: 50% 100%;
+      z-index: 3;
+    }
+
+    .globe-wrap.shake {
+      animation: globe-jump 1s cubic-bezier(.22, .88, .28, 1);
+    }
+
+    .globe {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 50%;
+      border: 4px solid rgba(237, 250, 255, 0.72);
+      background:
+        radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.9) 0 5%, transparent 19%),
+        radial-gradient(circle at 64% 70%, rgba(255, 255, 255, 0.18) 0 15%, transparent 38%),
+        linear-gradient(180deg, rgba(83, 135, 180, 0.66), rgba(21, 49, 82, 0.92));
+      box-shadow:
+        inset -24px -28px 48px rgba(4, 13, 26, 0.34),
+        inset 18px 18px 40px rgba(255, 255, 255, 0.22),
+        0 26px 46px rgba(0, 0, 0, 0.34);
+    }
+
+    .globe::before {
+      content: "";
+      position: absolute;
+      inset: 6%;
+      border-radius: 50%;
+      background: linear-gradient(125deg, rgba(255,255,255,.44), transparent 27% 100%);
+      pointer-events: none;
+      z-index: 8;
+    }
+
+    .ground {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      bottom: 5%;
+      height: 24%;
+      border-radius: 50% 50% 0 0;
+      background: linear-gradient(180deg, #ffffff, #d9e8f8);
+      z-index: 2;
+    }
+
+    .drift {
+      position: absolute;
+      bottom: 13%;
+      height: 12%;
+      width: 28%;
+      border-radius: 50% 50% 30% 30%;
+      background: rgba(255, 255, 255, 0.95);
+      opacity: 0;
+      transform: scaleY(.3);
+      transform-origin: 50% 100%;
+      transition: opacity 1s ease, transform 10s ease;
+      z-index: 6;
+    }
+
+    .drift.left {
+      left: 18%;
+    }
+
+    .drift.right {
+      right: 16%;
+      width: 34%;
+    }
+
+    .snowing .drift {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+
+    .house {
+      position: absolute;
+      left: 50%;
+      bottom: 18%;
+      width: 42%;
+      height: 38%;
+      transform: translateX(-50%);
+      z-index: 5;
+    }
+
+    .roof {
+      position: absolute;
+      left: 5%;
+      top: 4%;
+      width: 90%;
+      height: 38%;
+      clip-path: polygon(50% 0, 100% 88%, 0 88%);
+      background: linear-gradient(145deg, #b93138, #6c1721);
+      box-shadow: inset 0 -14px 0 rgba(255,255,255,.82);
+    }
+
+    .walls {
+      position: absolute;
+      left: 16%;
+      bottom: 0;
+      width: 68%;
+      height: 66%;
+      border-radius: 7px 7px 3px 3px;
+      background: linear-gradient(115deg, #8c5934, #5f3825);
+      box-shadow: inset 0 0 0 3px rgba(51, 28, 16, 0.32);
+    }
+
+    .door {
+      position: absolute;
+      left: 42%;
+      bottom: 0;
+      width: 16%;
+      height: 32%;
+      border-radius: 8px 8px 0 0;
+      background: #2c1a13;
+    }
+
+    .window {
+      position: absolute;
+      top: 38%;
+      width: 23%;
+      height: 25%;
+      overflow: hidden;
+      border: 3px solid #2d1c13;
+      border-radius: 5px;
+      background: #17243b;
+      transition: background .35s ease, box-shadow .35s ease;
+    }
+
+    .window.left {
+      left: 12%;
+    }
+
+    .window.right {
+      right: 12%;
+    }
+
+    .party .window {
+      background: #ffd76a;
+      box-shadow: 0 0 22px rgba(255, 216, 111, 0.85);
+    }
+
+    .dancers {
+      position: absolute;
+      inset: 18% 12% 8%;
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+
+    .party .dancers {
+      opacity: 1;
+      animation: dance .55s ease-in-out infinite alternate;
+    }
+
+    .dancers::before,
+    .dancers::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 28%;
+      height: 74%;
+      border-radius: 999px 999px 3px 3px;
+      background: #47213a;
+    }
+
+    .dancers::before {
+      left: 18%;
+    }
+
+    .dancers::after {
+      right: 18%;
+      background: #1e4e62;
+    }
+
+    .flakes {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      z-index: 7;
+      pointer-events: none;
+    }
+
+    .flake {
+      position: absolute;
+      top: -8%;
+      left: var(--x);
+      width: var(--s);
+      height: var(--s);
+      border-radius: 50%;
+      background: var(--snow);
+      box-shadow: 0 0 8px rgba(255,255,255,.82);
+      opacity: .95;
+      animation: fall var(--d) linear forwards;
+      animation-delay: var(--delay);
+    }
+
+    .spring {
+      position: relative;
+      width: 42%;
+      height: 96px;
+      margin-top: -4px;
+      z-index: 2;
+      transform-origin: 50% 100%;
+    }
+
+    .spring::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-radial-gradient(ellipse at center, transparent 0 12px, var(--gold) 13px 17px, transparent 18px 28px);
+      filter: drop-shadow(0 4px 0 var(--gold-dark));
+      transform: rotate(90deg) scaleX(.62);
+    }
+
+    .spring.compress {
+      animation: spring-compress 1s cubic-bezier(.32, .82, .26, 1);
+    }
+
+    .base {
+      position: relative;
+      width: 62%;
+      height: 54px;
+      margin-top: -10px;
+      border-radius: 50% 50% 12px 12px;
+      background: linear-gradient(180deg, #f6cf62, #a56e19 64%, #5c3511);
+      box-shadow: 0 22px 28px rgba(0,0,0,.34);
+      z-index: 1;
+    }
+
+    .shake-button {
+      width: 78px;
+      height: 78px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      color: #12375a;
+      background: linear-gradient(180deg, #ffffff, #a9dcff);
+      box-shadow: 0 12px 28px rgba(0,0,0,.36), inset 0 0 0 3px rgba(255,255,255,.65);
+      cursor: pointer;
+      transition: transform .18s ease, filter .18s ease;
+    }
+
+    .shake-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .shake-button:disabled {
+      cursor: wait;
+      opacity: .72;
+      transform: none;
+    }
+
+    .shake-button svg {
+      width: 42px;
+      height: 42px;
+      stroke-width: 2.4;
+    }
+
+    @keyframes globe-jump {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      14% { transform: translateY(8px) scaleY(.98) rotate(-1deg); }
+      46% { transform: translateY(calc(var(--globe-size) * -0.5)) rotate(5deg); }
+      70% { transform: translateY(calc(var(--globe-size) * -0.18)) rotate(-4deg); }
+      86% { transform: translateY(5px) rotate(2deg); }
+    }
+
+    @keyframes spring-compress {
+      0%, 100% { transform: scaleY(1); }
+      16% { transform: scaleY(.45); }
+      44% { transform: scaleY(1.2); }
+      72% { transform: scaleY(.9); }
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate3d(0, 0, 0);
+        opacity: 0;
+      }
+      8% {
+        opacity: .95;
+      }
+      100% {
+        transform: translate3d(var(--dx), 98vh, 0);
+        opacity: .15;
+      }
+    }
+
+    @keyframes dance {
+      from { transform: translateX(-5%) rotate(-5deg); }
+      to { transform: translateX(5%) rotate(5deg); }
+    }
+
+    @media (max-width: 520px) {
+      .app {
+        padding-top: 20px;
+      }
+
+      .scene {
+        height: calc(var(--globe-size) + 118px);
+      }
+
+      .spring {
+        height: 76px;
+      }
+
+      .base {
+        height: 44px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="scene" aria-label="Снежный шар">
+      <div class="globe-wrap" id="globeWrap">
+        <div class="globe" id="globe">
+          <div class="ground"></div>
+          <div class="drift left"></div>
+          <div class="drift right"></div>
+          <div class="house" id="house">
+            <div class="roof"></div>
+            <div class="walls">
+              <div class="window left"><div class="dancers"></div></div>
+              <div class="window right"><div class="dancers"></div></div>
+              <div class="door"></div>
+            </div>
+          </div>
+          <div class="flakes" id="flakes"></div>
+        </div>
+      </div>
+      <div class="spring" id="spring"></div>
+      <div class="base"></div>
+    </section>
+
+    <button class="shake-button" id="shakeButton" type="button" aria-label="Встряхнуть снежный шар">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+        <path d="m12 2 0 20"></path>
+        <path d="m4.93 4.93 14.14 14.14"></path>
+        <path d="M2 12h20"></path>
+        <path d="M4.93 19.07 19.07 4.93"></path>
+        <path d="m12 2 3 3"></path>
+        <path d="m12 2-3 3"></path>
+        <path d="m12 22 3-3"></path>
+        <path d="m12 22-3-3"></path>
+      </svg>
+    </button>
+  </main>
+
+  <script>
+    const button = document.querySelector("#shakeButton");
+    const globeWrap = document.querySelector("#globeWrap");
+    const globe = document.querySelector("#globe");
+    const spring = document.querySelector("#spring");
+    const house = document.querySelector("#house");
+    const flakes = document.querySelector("#flakes");
+
+    let audioContext;
+    let melodyTimer;
+    let isRunning = false;
+
+    const notes = [523.25, 659.25, 783.99, 659.25, 698.46, 783.99, 880, 783.99];
+
+    function playTone(frequency, startTime, duration) {
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+
+      oscillator.type = "triangle";
+      oscillator.frequency.setValueAtTime(frequency, startTime);
+      gain.gain.setValueAtTime(0.0001, startTime);
+      gain.gain.exponentialRampToValueAtTime(0.08, startTime + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+      oscillator.start(startTime);
+      oscillator.stop(startTime + duration + 0.04);
+    }
+
+    function startMelody() {
+      audioContext ||= new AudioContext();
+      audioContext.resume();
+      let index = 0;
+
+      melodyTimer = window.setInterval(() => {
+        const now = audioContext.currentTime;
+        playTone(notes[index % notes.length], now, 0.24);
+        playTone(notes[(index + 2) % notes.length] / 2, now, 0.36);
+        index += 1;
+      }, 320);
+    }
+
+    function stopMelody() {
+      window.clearInterval(melodyTimer);
+      melodyTimer = undefined;
+    }
+
+    function createSnow() {
+      flakes.innerHTML = "";
+
+      for (let i = 0; i < 120; i += 1) {
+        const flake = document.createElement("span");
+        const size = 3 + Math.random() * 5;
+        const duration = 5.8 + Math.random() * 4.2;
+        const delay = Math.random() * 1.8;
+        const x = 8 + Math.random() * 84;
+        const dx = `${-42 + Math.random() * 84}px`;
+
+        flake.className = "flake";
+        flake.style.setProperty("--x", `${x}%`);
+        flake.style.setProperty("--s", `${size}px`);
+        flake.style.setProperty("--d", `${duration}s`);
+        flake.style.setProperty("--delay", `${delay}s`);
+        flake.style.setProperty("--dx", dx);
+        flakes.appendChild(flake);
+      }
+    }
+
+    function restartAnimation(element, className) {
+      element.classList.remove(className);
+      void element.offsetWidth;
+      element.classList.add(className);
+    }
+
+    button.addEventListener("click", () => {
+      if (isRunning) return;
+
+      isRunning = true;
+      button.disabled = true;
+      flakes.innerHTML = "";
+      globe.classList.remove("snowing");
+      house.classList.remove("party");
+
+      restartAnimation(globeWrap, "shake");
+      restartAnimation(spring, "compress");
+
+      window.setTimeout(() => {
+        createSnow();
+        globe.classList.add("snowing");
+        house.classList.add("party");
+        startMelody();
+      }, 1000);
+
+      window.setTimeout(() => {
+        stopMelody();
+        globe.classList.remove("snowing");
+        house.classList.remove("party");
+        button.disabled = false;
+        isRunning = false;
+      }, 11000);
+    });
+  </script>
+</body>
+</html>
