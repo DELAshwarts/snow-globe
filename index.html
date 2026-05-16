@@ -6,12 +6,11 @@
   <title>Снежный шар</title>
   <style>
     :root {
-      --globe-size: min(72vw, 430px);
-      --gold: #d7a632;
-      --gold-dark: #8f6418;
-      --night: #1a2846;
-      --snow: #f8fbff;
-      --glass: rgba(216, 239, 255, 0.34);
+      --globe-size: min(74vw, 430px);
+      --gold: #e2b449;
+      --gold-dark: #8a5b17;
+      --glass-blue: rgba(131, 197, 239, .22);
+      --snow: #fbfdff;
     }
 
     * {
@@ -25,87 +24,86 @@
       place-items: center;
       overflow: hidden;
       font-family: Arial, sans-serif;
-      color: #f9fbff;
       background:
-        radial-gradient(circle at 30% 18%, #385987 0 12%, transparent 32%),
-        linear-gradient(145deg, #141b2f 0%, #253c5f 44%, #182033 100%);
+        radial-gradient(circle at 26% 18%, rgba(103, 151, 206, .55), transparent 30%),
+        radial-gradient(circle at 78% 68%, rgba(204, 97, 124, .25), transparent 34%),
+        linear-gradient(145deg, #172137 0%, #2f486d 48%, #161d30 100%);
+      color: #f8fbff;
     }
 
     .app {
-      width: min(94vw, 760px);
-      min-height: min(94vh, 780px);
+      width: min(96vw, 760px);
+      min-height: min(96vh, 790px);
       display: grid;
       grid-template-rows: 1fr auto;
       justify-items: center;
       align-items: end;
-      gap: 20px;
-      padding: 34px 16px 28px;
+      gap: 18px;
+      padding: 26px 14px 28px;
     }
 
     .scene {
-      position: relative;
       width: var(--globe-size);
-      height: calc(var(--globe-size) + 150px);
+      height: calc(var(--globe-size) + 152px);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
+      position: relative;
     }
 
     .globe-wrap {
-      position: relative;
       width: var(--globe-size);
       height: var(--globe-size);
+      position: relative;
+      z-index: 4;
       transform-origin: 50% 100%;
-      z-index: 3;
     }
 
-    .globe-wrap.shake {
-      animation: globe-jump 1s cubic-bezier(.22, .88, .28, 1);
+    .globe-wrap.is-shaking {
+      animation: globe-jump 1s cubic-bezier(.2, .82, .28, 1);
     }
 
     .globe {
-      position: relative;
       width: 100%;
       height: 100%;
+      position: relative;
       overflow: hidden;
       border-radius: 50%;
-      border: 0;
       background:
-        radial-gradient(circle at 31% 22%, rgba(255, 255, 255, 0.86) 0 4%, rgba(255, 255, 255, .24) 12%, transparent 25%),
-        radial-gradient(circle at 68% 74%, rgba(255, 255, 255, 0.16) 0 16%, transparent 42%),
-        radial-gradient(circle at 50% 50%, rgba(160, 221, 255, .24) 0 54%, rgba(59, 111, 157, .32) 70%, rgba(10, 27, 47, .44) 100%),
-        linear-gradient(180deg, rgba(83, 135, 180, 0.54), rgba(21, 49, 82, 0.86));
+        radial-gradient(circle at 30% 21%, rgba(255, 255, 255, .82) 0 4%, rgba(255, 255, 255, .24) 13%, transparent 27%),
+        radial-gradient(circle at 67% 73%, rgba(255, 255, 255, .14), transparent 40%),
+        radial-gradient(circle at 50% 50%, var(--glass-blue) 0 58%, rgba(38, 91, 137, .36) 73%, rgba(7, 22, 41, .56) 100%),
+        linear-gradient(180deg, rgba(90, 149, 195, .50), rgba(17, 43, 75, .88));
       box-shadow:
-        inset 0 0 0 22px rgba(238, 250, 255, .07),
-        inset 0 0 48px rgba(238, 250, 255, .16),
-        inset -42px -52px 76px rgba(4, 13, 26, 0.44),
-        inset 34px 30px 58px rgba(255, 255, 255, 0.22),
-        0 26px 46px rgba(0, 0, 0, 0.34);
+        inset 0 0 0 20px rgba(238, 250, 255, .07),
+        inset 0 0 46px rgba(236, 250, 255, .18),
+        inset -42px -52px 72px rgba(2, 12, 25, .46),
+        inset 34px 30px 56px rgba(255, 255, 255, .22),
+        0 28px 48px rgba(0, 0, 0, .34);
     }
 
-    .globe::before {
-      content: "";
-      position: absolute;
-      inset: 4%;
-      border-radius: 50%;
-      background:
-        radial-gradient(ellipse at 24% 20%, rgba(255,255,255,.62) 0 10%, rgba(255,255,255,.22) 21%, transparent 37%),
-        linear-gradient(132deg, rgba(255,255,255,.22), transparent 28% 100%);
-      pointer-events: none;
-      z-index: 8;
-    }
-
+    .globe::before,
     .globe::after {
       content: "";
       position: absolute;
-      inset: 1.5%;
       border-radius: 50%;
-      background:
-        radial-gradient(circle at 50% 50%, transparent 0 62%, rgba(255,255,255,.17) 70%, rgba(255,255,255,.06) 79%, transparent 90%),
-        radial-gradient(ellipse at 54% 96%, rgba(6, 18, 32, .38), transparent 42%);
       pointer-events: none;
-      z-index: 9;
+      z-index: 20;
+    }
+
+    .globe::before {
+      inset: 4%;
+      background:
+        radial-gradient(ellipse at 23% 18%, rgba(255, 255, 255, .64) 0 10%, rgba(255, 255, 255, .22) 22%, transparent 38%),
+        linear-gradient(132deg, rgba(255, 255, 255, .20), transparent 30%);
+    }
+
+    .globe::after {
+      inset: 1.5%;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 0 63%, rgba(255, 255, 255, .16) 71%, rgba(255, 255, 255, .06) 80%, transparent 91%),
+        radial-gradient(ellipse at 54% 97%, rgba(4, 16, 30, .38), transparent 42%);
     }
 
     .ground {
@@ -113,86 +111,90 @@
       left: 8%;
       right: 8%;
       bottom: 5%;
-      height: 24%;
+      height: 23%;
       border-radius: 50% 50% 0 0;
-      background: linear-gradient(180deg, #ffffff, #d9e8f8);
+      background: linear-gradient(180deg, #fff, #dbeaf8);
       z-index: 2;
-    }
-
-    .drift {
-      position: absolute;
-      bottom: 13%;
-      height: 12%;
-      width: 28%;
-      border-radius: 50% 50% 30% 30%;
-      background: rgba(255, 255, 255, 0.95);
-      opacity: 0;
-      transform: scaleY(.3);
-      transform-origin: 50% 100%;
-      transition: opacity 1s ease, transform 10s ease;
-      z-index: 6;
-    }
-
-    .drift.left {
-      left: 13%;
-    }
-
-    .drift.right {
-      right: 11%;
-      width: 34%;
-    }
-
-    .drift.center {
-      left: 34%;
-      bottom: 11%;
-      width: 32%;
-      height: 10%;
-      z-index: 4;
-    }
-
-    .drift.front {
-      left: 27%;
-      bottom: 8%;
-      width: 47%;
-      height: 9%;
-      z-index: 7;
-    }
-
-    .snowing .drift,
-    .snow-settled .drift {
-      opacity: 1;
-      transform: scaleY(1);
     }
 
     .house {
       position: absolute;
       left: 50%;
-      bottom: 16%;
-      width: 56%;
-      height: 46%;
-      transform: translateX(-50%) rotateX(0deg);
-      transform-style: preserve-3d;
-      z-index: 5;
+      bottom: 17%;
+      width: 55%;
+      height: 47%;
+      transform: translateX(-50%);
+      z-index: 7;
+    }
+
+    .chimney {
+      position: absolute;
+      left: 40%;
+      top: -5%;
+      width: 12%;
+      height: 24%;
+      border-radius: 6px 6px 2px 2px;
+      background:
+        repeating-linear-gradient(180deg, rgba(255, 229, 190, .22) 0 5px, transparent 5px 10px),
+        linear-gradient(100deg, #a44b31, #5a2118);
+      box-shadow:
+        inset -5px 0 rgba(45, 18, 12, .30),
+        4px 5px rgba(58, 21, 13, .20);
+      z-index: 8;
+    }
+
+    .chimney::before {
+      content: "";
+      position: absolute;
+      left: -18%;
+      right: -18%;
+      top: -8px;
+      height: 11px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, #fff1d6 0 32%, #b75d37 35% 68%, #552016 70%);
+    }
+
+    .smoke {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 1px);
+      width: 46px;
+      height: 64px;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .smoke span {
+      position: absolute;
+      left: var(--sx);
+      bottom: -2px;
+      width: var(--ss);
+      height: var(--ss);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .78);
+      filter: blur(1px);
+      animation: smoke-rise 3.2s ease-in-out infinite;
+      animation-delay: var(--sd);
     }
 
     .roof {
       position: absolute;
-      left: 4%;
+      left: 3%;
       top: 0;
-      width: 92%;
+      width: 94%;
       height: 45%;
-      clip-path: polygon(48% 0, 100% 88%, 7% 92%, 0 72%);
+      clip-path: polygon(49% 0, 100% 88%, 7% 92%, 0 72%);
       background:
-        radial-gradient(ellipse at 28% 48%, #ffe35d 0 6%, #ef3f52 7% 11%, transparent 12%),
+        radial-gradient(ellipse at 27% 50%, #ffe35d 0 6%, #ef3f52 7% 11%, transparent 12%),
         radial-gradient(ellipse at 44% 38%, #59c8ff 0 5%, #fff0bd 6% 9%, transparent 10%),
-        radial-gradient(ellipse at 61% 52%, #ff7b2f 0 6%, #ffe15c 7% 10%, transparent 11%),
-        radial-gradient(ellipse at 76% 42%, #cf4ee8 0 5%, #fff0bd 6% 9%, transparent 10%),
-        repeating-linear-gradient(34deg, transparent 0 13px, rgba(255, 231, 135, .85) 14px 16px, transparent 17px 29px),
+        radial-gradient(ellipse at 61% 53%, #ff7b2f 0 6%, #ffe15c 7% 10%, transparent 11%),
+        radial-gradient(ellipse at 77% 42%, #cf4ee8 0 5%, #fff0bd 6% 9%, transparent 10%),
+        repeating-linear-gradient(34deg, transparent 0 13px, rgba(255, 231, 135, .80) 14px 16px, transparent 17px 29px),
         linear-gradient(112deg, #d94f34 0 42%, #a92f24 43% 62%, #5f1d18 100%);
       box-shadow:
-        inset -24px -14px 0 rgba(63, 19, 13, .24),
-        inset 22px 10px 0 rgba(255, 149, 99, .16),
-        8px 9px 0 rgba(62, 25, 12, .24);
+        inset -24px -14px rgba(63, 19, 13, .24),
+        inset 22px 10px rgba(255, 149, 99, .16),
+        8px 9px rgba(62, 25, 12, .24);
       z-index: 5;
     }
 
@@ -215,112 +217,23 @@
         linear-gradient(180deg, #fff9f3 0 42%, transparent 43%);
       clip-path: polygon(0 0, 100% 0, 96% 42%, 90% 28%, 84% 62%, 77% 34%, 70% 74%, 63% 30%, 56% 55%, 48% 36%, 40% 82%, 33% 32%, 27% 58%, 20% 28%, 14% 76%, 8% 35%, 3% 62%);
       filter: drop-shadow(0 3px 1px rgba(93, 31, 18, .22));
-      z-index: 2;
     }
 
-    .chimney {
-      position: absolute;
-      left: 38%;
-      top: -7%;
-      width: 13%;
-      height: 27%;
-      border: 2px solid rgba(255, 232, 190, .62);
-      border-radius: 6px 6px 2px 2px;
-      background:
-        repeating-linear-gradient(180deg, rgba(255, 235, 195, .24) 0 5px, transparent 5px 10px),
-        linear-gradient(100deg, #a44d31 0%, #5a2118 78%);
-      box-shadow:
-        inset -6px 0 0 rgba(45, 18, 12, .32),
-        4px 5px 0 rgba(58, 21, 13, .22),
-        0 0 0 2px rgba(65, 22, 14, .24);
-      z-index: 6;
-    }
-
-    .chimney::before {
-      content: "";
-      position: absolute;
-      left: -18%;
-      right: -18%;
-      top: -9px;
-      height: 12px;
-      border-radius: 50%;
-      background: radial-gradient(ellipse at center, #fff7dc 0 32%, #b75d37 35% 68%, #552016 70% 100%);
-      box-shadow: 0 2px 0 rgba(54, 20, 13, .32);
-      z-index: 2;
-    }
-
-    .smoke {
-      position: absolute;
-      left: 50%;
-      bottom: calc(100% + 1px);
-      width: 46px;
-      height: 62px;
-      pointer-events: none;
-      transform: translateX(-50%);
-      z-index: 10;
-    }
-
-    .smoke span {
-      position: absolute;
-      bottom: -2px;
-      left: var(--sx);
-      width: var(--ss);
-      height: var(--ss);
-      border-radius: 50%;
-      background: rgba(255, 255, 255, .78);
-      filter: blur(1px);
-      animation: smoke-rise 3.2s ease-in-out infinite;
-      animation-delay: var(--sd);
-    }
-
-    .walls {
-      position: absolute;
-      right: 6%;
-      bottom: 0;
-      width: 48%;
-      height: 72%;
-      border-radius: 9px 9px 5px 5px;
-      background:
-        radial-gradient(circle at 73% 20%, rgba(255,255,255,.22) 0 8%, transparent 9%),
-        linear-gradient(115deg, #b9663c 0%, #8d4229 62%, #5c281b 100%);
-      box-shadow:
-        inset -15px 0 0 rgba(69, 34, 18, .30),
-        inset 0 0 0 3px rgba(73, 39, 22, 0.35),
-        8px 9px 0 rgba(45, 22, 13, .22);
-      z-index: 3;
-    }
-
-    .walls::before {
-      content: "";
-      position: absolute;
-      inset: auto 11% 0;
-      height: 52%;
-      border-radius: 999px 999px 0 0;
-      border: 7px solid #ffd58e;
-      border-bottom: 0;
-      box-shadow:
-        inset 0 0 0 4px rgba(111, 45, 28, .35),
-        0 0 0 2px rgba(255, 245, 224, .42);
-      pointer-events: none;
-    }
-
-    .side-wall {
+    .annex {
       position: absolute;
       left: 7%;
       bottom: 0;
       width: 46%;
       height: 48%;
-      clip-path: none;
       border-radius: 10px 10px 5px 5px;
-      background:
-        linear-gradient(100deg, #b7653d 0%, #804024 88%);
+      background: linear-gradient(100deg, #b7653d 0%, #804024 88%);
       box-shadow:
-        inset -10px 0 0 rgba(35, 16, 9, .20),
-        5px 7px 0 rgba(45, 22, 13, .18);
-      z-index: 2;
+        inset -10px 0 rgba(35, 16, 9, .20),
+        5px 7px rgba(45, 22, 13, .18);
+      z-index: 3;
     }
 
-    .side-wall::before {
+    .annex::before {
       content: "";
       position: absolute;
       left: -3%;
@@ -338,17 +251,72 @@
       filter: drop-shadow(0 3px 1px rgba(93, 31, 18, .2));
     }
 
+    .facade {
+      position: absolute;
+      right: 6%;
+      bottom: 0;
+      width: 48%;
+      height: 72%;
+      border-radius: 9px 9px 5px 5px;
+      background:
+        radial-gradient(circle at 74% 19%, rgba(255, 255, 255, .22) 0 8%, transparent 9%),
+        linear-gradient(115deg, #b9663c 0%, #8d4229 62%, #5c281b 100%);
+      box-shadow:
+        inset -15px 0 rgba(69, 34, 18, .30),
+        inset 0 0 0 3px rgba(73, 39, 22, .35),
+        8px 9px rgba(45, 22, 13, .22);
+      z-index: 4;
+    }
+
+    .door {
+      position: absolute;
+      left: 37%;
+      bottom: 0;
+      width: 30%;
+      height: 43%;
+      border-radius: 999px 999px 0 0;
+      background:
+        radial-gradient(circle at 72% 46%, #ffc85d 0 7%, transparent 8%),
+        linear-gradient(100deg, #733021, #36140f);
+      box-shadow:
+        0 0 0 5px #ffe0a3,
+        0 0 0 9px #a7472d,
+        inset -8px 0 rgba(44, 16, 11, .25);
+    }
+
+    .window,
     .annex-window {
       position: absolute;
+      border-radius: 50%;
+      background: #17243b;
+      border: 5px solid #ffd58e;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 2px rgba(255, 255, 255, .35),
+        0 3px rgba(60, 28, 16, .42);
+      transition: background .35s ease, box-shadow .35s ease;
+    }
+
+    .window {
+      width: 22%;
+      height: 20%;
+    }
+
+    .window.left {
+      left: 12%;
+      top: 24%;
+    }
+
+    .window.right {
+      right: 11%;
+      top: 16%;
+    }
+
+    .annex-window {
       top: 42%;
       width: 18%;
       height: 20%;
-      border-radius: 50%;
-      border: 4px solid #ffca63;
-      background:
-        radial-gradient(circle at 52% 48%, rgba(255, 213, 111, .65) 0 28%, transparent 29%),
-        #522416;
-      box-shadow: 0 2px 0 rgba(53, 20, 11, .34);
+      border-width: 4px;
     }
 
     .annex-window.left {
@@ -359,62 +327,21 @@
       right: 20%;
     }
 
-    .door {
-      position: absolute;
-      left: 38%;
-      bottom: 0;
-      width: 28%;
-      height: 43%;
-      border: 0;
-      border-bottom: 0;
-      border-radius: 999px 999px 0 0;
-      background:
-        radial-gradient(circle at 72% 46%, #ffc85d 0 7%, transparent 8%),
-        repeating-linear-gradient(55deg, #ffd58e 0 6px, #fff1ca 7px 12px, #e89b4c 13px 18px),
-        linear-gradient(100deg, #733021, #36140f);
-      box-shadow:
-        0 0 0 5px #ffe0a3,
-        0 0 0 9px #a7472d,
-        inset -8px 0 0 rgba(44, 16, 11, .25);
-    }
-
-    .window {
-      position: absolute;
-      width: 22%;
-      height: 20%;
-      overflow: hidden;
-      border: 5px solid #ffd58e;
-      border-radius: 50%;
-      background: #17243b;
-      box-shadow:
-        0 0 0 2px rgba(255,255,255,.35),
-        0 3px 0 rgba(60, 28, 16, .42);
-      transition: background .35s ease, box-shadow .35s ease;
-    }
-
-    .window.left {
-      left: 11%;
-      top: 24%;
-    }
-
-    .window.right {
-      right: 11%;
-      top: 16%;
-    }
-
-    .party .window {
+    .house.is-lit .window {
       background: #ffd76a;
-      box-shadow: 0 0 22px rgba(255, 216, 111, 0.85);
+      box-shadow:
+        0 0 0 2px rgba(255, 255, 255, .35),
+        0 0 20px rgba(255, 216, 111, .85);
     }
 
     .dancers {
       position: absolute;
-      inset: 18% 12% 8%;
+      inset: 17% 12% 8%;
       opacity: 0;
       transition: opacity .25s ease;
     }
 
-    .party .dancers {
+    .house.is-lit .dancers {
       opacity: 1;
       animation: dance .55s ease-in-out infinite alternate;
     }
@@ -425,7 +352,7 @@
       position: absolute;
       bottom: 0;
       width: 28%;
-      height: 74%;
+      height: 76%;
       border-radius: 999px 999px 3px 3px;
       background: #47213a;
     }
@@ -439,12 +366,49 @@
       background: #1e4e62;
     }
 
+    .snow-pile {
+      position: absolute;
+      bottom: 9%;
+      height: 8%;
+      border-radius: 50% 50% 22% 22%;
+      background: rgba(255, 255, 255, .96);
+      opacity: 0;
+      transform: scaleY(.16);
+      transform-origin: 50% 100%;
+      transition: opacity .7s ease, transform 10s linear;
+      z-index: 9;
+    }
+
+    .snow-pile.left {
+      left: 14%;
+      width: 29%;
+      bottom: 12%;
+    }
+
+    .snow-pile.center {
+      left: 30%;
+      width: 40%;
+      bottom: 10%;
+    }
+
+    .snow-pile.right {
+      right: 12%;
+      width: 32%;
+      bottom: 12%;
+    }
+
+    .snowing .snow-pile,
+    .snow-settled .snow-pile {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+
     .flakes {
       position: absolute;
       inset: 0;
       border-radius: 50%;
       overflow: hidden;
-      z-index: 7;
+      z-index: 12;
       pointer-events: none;
     }
 
@@ -456,17 +420,17 @@
       height: var(--s);
       border-radius: 50%;
       background: var(--snow);
-      box-shadow: 0 0 8px rgba(255,255,255,.82);
+      box-shadow: 0 0 8px rgba(255, 255, 255, .82);
       opacity: 0;
       animation: fall var(--duration) linear forwards;
       animation-delay: var(--delay);
     }
 
     .spring {
-      position: relative;
       width: 32%;
       height: 112px;
       margin-top: -7px;
+      position: relative;
       z-index: 2;
       transform-origin: 50% 100%;
       border-radius: 50% / 10%;
@@ -484,33 +448,22 @@
       top: -7px;
       height: 18px;
       border-radius: 50%;
-      background: radial-gradient(ellipse at center, #ffe98c 0 34%, #d7a632 36% 61%, #7d5417 63% 100%);
-      box-shadow: 0 112px 0 -1px #8b621c;
+      background: radial-gradient(ellipse at center, #ffe98c 0 34%, var(--gold) 36% 61%, #7d5417 63%);
+      box-shadow: 0 112px 0 -1px var(--gold-dark);
     }
 
-    .spring::after {
-      content: "";
-      position: absolute;
-      inset: 7px 17%;
-      border-radius: 50% / 9%;
-      background: linear-gradient(90deg, rgba(255,255,255,.18), transparent 32% 70%, rgba(63, 37, 8, .32));
-      border-left: 3px solid rgba(255, 235, 130, .36);
-      border-right: 3px solid rgba(74, 47, 10, .34);
-      pointer-events: none;
-    }
-
-    .spring.compress {
+    .spring.is-compressing {
       animation: spring-compress 1s cubic-bezier(.32, .82, .26, 1);
     }
 
     .base {
-      position: relative;
       width: 62%;
       height: 54px;
       margin-top: -10px;
+      position: relative;
       border-radius: 50% 50% 12px 12px;
       background: linear-gradient(180deg, #f6cf62, #a56e19 64%, #5c3511);
-      box-shadow: 0 22px 28px rgba(0,0,0,.34);
+      box-shadow: 0 22px 28px rgba(0, 0, 0, .34);
       z-index: 1;
     }
 
@@ -522,20 +475,20 @@
       border: 0;
       border-radius: 50%;
       color: #12375a;
-      background: linear-gradient(180deg, #ffffff, #a9dcff);
-      box-shadow: 0 12px 28px rgba(0,0,0,.36), inset 0 0 0 3px rgba(255,255,255,.65);
+      background: linear-gradient(180deg, #fff, #a9dcff);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, .36), inset 0 0 0 3px rgba(255, 255, 255, .65);
       cursor: pointer;
-      transition: transform .18s ease, filter .18s ease;
+      transition: transform .18s ease, filter .18s ease, opacity .18s ease;
     }
 
     .shake-button:hover {
       transform: translateY(-2px);
-      filter: brightness(1.05);
+      filter: brightness(1.06);
     }
 
     .shake-button:disabled {
       cursor: wait;
-      opacity: .72;
+      opacity: .70;
       transform: none;
     }
 
@@ -547,10 +500,10 @@
 
     @keyframes globe-jump {
       0%, 100% { transform: translateY(0) rotate(0deg); }
-      14% { transform: translateY(8px) scaleY(.98) rotate(-1deg); }
-      46% { transform: translateY(calc(var(--globe-size) * -0.5)) rotate(5deg); }
-      70% { transform: translateY(calc(var(--globe-size) * -0.18)) rotate(-4deg); }
-      86% { transform: translateY(5px) rotate(2deg); }
+      14% { transform: translateY(8px) scaleY(.985) rotate(-1deg); }
+      46% { transform: translateY(calc(var(--globe-size) * -0.5)) rotate(4deg); }
+      70% { transform: translateY(calc(var(--globe-size) * -0.18)) rotate(-3deg); }
+      86% { transform: translateY(5px) rotate(1deg); }
     }
 
     @keyframes spring-compress {
@@ -580,7 +533,7 @@
       }
       100% {
         transform: translate3d(var(--dx), var(--dy), 0);
-        opacity: .18;
+        opacity: .16;
       }
     }
 
@@ -595,7 +548,7 @@
         opacity: 0;
       }
       18% {
-        opacity: .86;
+        opacity: .82;
       }
       100% {
         transform: translate3d(var(--smoke-dx), -72px, 0) scale(1.35);
@@ -605,7 +558,7 @@
 
     @media (max-width: 520px) {
       .app {
-        padding-top: 20px;
+        padding-top: 18px;
       }
 
       .scene {
@@ -614,6 +567,10 @@
 
       .spring {
         height: 76px;
+      }
+
+      .spring::before {
+        box-shadow: 0 76px 0 -1px var(--gold-dark);
       }
 
       .base {
@@ -628,10 +585,10 @@
       <div class="globe-wrap" id="globeWrap">
         <div class="globe" id="globe">
           <div class="ground"></div>
-          <div class="drift left"></div>
-          <div class="drift right"></div>
-          <div class="drift center"></div>
-          <div class="drift front"></div>
+          <div class="snow-pile left"></div>
+          <div class="snow-pile center"></div>
+          <div class="snow-pile right"></div>
+
           <div class="house" id="house">
             <div class="chimney">
               <div class="smoke" aria-hidden="true">
@@ -641,16 +598,17 @@
               </div>
             </div>
             <div class="roof"></div>
-            <div class="side-wall">
+            <div class="annex">
               <div class="annex-window left"></div>
               <div class="annex-window right"></div>
             </div>
-            <div class="walls">
+            <div class="facade">
               <div class="window left"><div class="dancers"></div></div>
               <div class="window right"><div class="dancers"></div></div>
               <div class="door"></div>
             </div>
           </div>
+
           <div class="flakes" id="flakes"></div>
         </div>
       </div>
@@ -660,8 +618,8 @@
 
     <button class="shake-button" id="shakeButton" type="button" aria-label="Встряхнуть снежный шар">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-        <path d="m12 2 0 20"></path>
-        <path d="m4.93 4.93 14.14 14.14"></path>
+        <path d="M12 2v20"></path>
+        <path d="M4.93 4.93 19.07 19.07"></path>
         <path d="M2 12h20"></path>
         <path d="M4.93 19.07 19.07 4.93"></path>
         <path d="m12 2 3 3"></path>
@@ -680,11 +638,14 @@
     const house = document.querySelector("#house");
     const flakes = document.querySelector("#flakes");
 
+    const SHAKE_MS = 1000;
+    const SNOW_MS = 10000;
+    const TOTAL_MS = SHAKE_MS + SNOW_MS;
+    const notes = [523.25, 659.25, 783.99, 659.25, 698.46, 783.99, 880, 783.99];
+
     let audioContext;
     let melodyTimer;
     let isRunning = false;
-
-    const notes = [523.25, 659.25, 783.99, 659.25, 698.46, 783.99, 880, 783.99];
 
     function playTone(frequency, startTime, duration) {
       const oscillator = audioContext.createOscillator();
@@ -693,7 +654,7 @@
       oscillator.type = "triangle";
       oscillator.frequency.setValueAtTime(frequency, startTime);
       gain.gain.setValueAtTime(0.0001, startTime);
-      gain.gain.exponentialRampToValueAtTime(0.08, startTime + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.075, startTime + 0.03);
       gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
 
       oscillator.connect(gain);
@@ -718,6 +679,12 @@
     function stopMelody() {
       window.clearInterval(melodyTimer);
       melodyTimer = undefined;
+    }
+
+    function restartAnimation(element, className) {
+      element.classList.remove(className);
+      void element.offsetWidth;
+      element.classList.add(className);
     }
 
     function createSnow() {
@@ -753,41 +720,34 @@
       }
     }
 
-    function restartAnimation(element, className) {
-      element.classList.remove(className);
-      void element.offsetWidth;
-      element.classList.add(className);
-    }
-
     button.addEventListener("click", () => {
       if (isRunning) return;
 
       isRunning = true;
       button.disabled = true;
       flakes.innerHTML = "";
-      globe.classList.remove("snowing");
-      globe.classList.remove("snow-settled");
-      house.classList.remove("party");
+      globe.classList.remove("snowing", "snow-settled");
+      house.classList.remove("is-lit");
 
-      restartAnimation(globeWrap, "shake");
-      restartAnimation(spring, "compress");
+      restartAnimation(globeWrap, "is-shaking");
+      restartAnimation(spring, "is-compressing");
 
       window.setTimeout(() => {
         createSnow();
         globe.classList.add("snowing");
-        house.classList.add("party");
+        house.classList.add("is-lit");
         startMelody();
-      }, 1000);
+      }, SHAKE_MS);
 
       window.setTimeout(() => {
         stopMelody();
+        flakes.innerHTML = "";
         globe.classList.remove("snowing");
         globe.classList.add("snow-settled");
-        house.classList.remove("party");
-        flakes.innerHTML = "";
+        house.classList.remove("is-lit");
         button.disabled = false;
         isRunning = false;
-      }, 11000);
+      }, TOTAL_MS);
     });
   </script>
 </body>
