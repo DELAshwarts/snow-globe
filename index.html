@@ -380,15 +380,16 @@
 
     .flake {
       position: absolute;
-      top: -8%;
+      top: var(--start-y);
       left: var(--x);
       width: var(--s);
       height: var(--s);
       border-radius: 50%;
       background: var(--snow);
       box-shadow: 0 0 8px rgba(255,255,255,.82);
-      opacity: .95;
-      animation: fall 10s linear forwards;
+      opacity: 0;
+      animation: fall var(--duration) linear forwards;
+      animation-delay: var(--delay);
     }
 
     .spring {
@@ -494,8 +495,18 @@
         transform: translate3d(0, 0, 0);
         opacity: 0;
       }
-      8% {
-        opacity: .95;
+      10% {
+        opacity: var(--flake-opacity);
+      }
+      28% {
+        transform: translate3d(var(--drift-a), calc(var(--dy) * .28), 0);
+      }
+      54% {
+        transform: translate3d(var(--drift-b), calc(var(--dy) * .54), 0);
+      }
+      78% {
+        transform: translate3d(var(--drift-c), calc(var(--dy) * .78), 0);
+        opacity: var(--flake-opacity);
       }
       100% {
         transform: translate3d(var(--dx), var(--dy), 0);
@@ -640,18 +651,32 @@
     function createSnow() {
       flakes.innerHTML = "";
 
-      for (let i = 0; i < 120; i += 1) {
+      for (let i = 0; i < 150; i += 1) {
         const flake = document.createElement("span");
-        const size = 3 + Math.random() * 5;
+        const size = 2.5 + Math.random() * 5.5;
         const x = 8 + Math.random() * 84;
-        const dx = `${-42 + Math.random() * 84}px`;
-        const dy = `calc(var(--globe-size) * ${0.94 + Math.random() * 0.12})`;
+        const startY = `${-34 + Math.random() * 28}%`;
+        const duration = `${7.6 + Math.random() * 2.4}s`;
+        const delay = `${Math.random() * 2.2}s`;
+        const dx = `${-70 + Math.random() * 140}px`;
+        const driftA = `${-30 + Math.random() * 60}px`;
+        const driftB = `${-46 + Math.random() * 92}px`;
+        const driftC = `${-36 + Math.random() * 72}px`;
+        const dy = `calc(var(--globe-size) * ${1.08 + Math.random() * 0.18})`;
+        const opacity = `${0.58 + Math.random() * 0.38}`;
 
         flake.className = "flake";
         flake.style.setProperty("--x", `${x}%`);
+        flake.style.setProperty("--start-y", startY);
         flake.style.setProperty("--s", `${size}px`);
+        flake.style.setProperty("--duration", duration);
+        flake.style.setProperty("--delay", delay);
         flake.style.setProperty("--dx", dx);
+        flake.style.setProperty("--drift-a", driftA);
+        flake.style.setProperty("--drift-b", driftB);
+        flake.style.setProperty("--drift-c", driftC);
         flake.style.setProperty("--dy", dy);
+        flake.style.setProperty("--flake-opacity", opacity);
         flakes.appendChild(flake);
       }
     }
