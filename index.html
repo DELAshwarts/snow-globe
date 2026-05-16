@@ -133,63 +133,132 @@
     .house {
       position: absolute;
       left: 50%;
-      bottom: 18%;
-      width: 42%;
-      height: 38%;
-      transform: translateX(-50%);
+      bottom: 17%;
+      width: 48%;
+      height: 42%;
+      transform: translateX(-50%) rotateX(0deg);
+      transform-style: preserve-3d;
       z-index: 5;
     }
 
     .roof {
       position: absolute;
-      left: 5%;
-      top: 4%;
-      width: 90%;
-      height: 38%;
-      clip-path: polygon(50% 0, 100% 88%, 0 88%);
-      background: linear-gradient(145deg, #b93138, #6c1721);
-      box-shadow: inset 0 -14px 0 rgba(255,255,255,.82);
+      left: 2%;
+      top: 0;
+      width: 82%;
+      height: 42%;
+      clip-path: polygon(50% 0, 100% 86%, 0 86%);
+      background:
+        radial-gradient(circle at 20% 54%, #fff4d7 0 5%, transparent 6%),
+        radial-gradient(circle at 38% 42%, #e6414c 0 5%, transparent 6%),
+        radial-gradient(circle at 58% 53%, #59c8b8 0 5%, transparent 6%),
+        radial-gradient(circle at 76% 43%, #fff4d7 0 5%, transparent 6%),
+        linear-gradient(145deg, #c94733 0%, #7b231b 78%);
+      box-shadow:
+        inset -16px -10px 0 rgba(86, 28, 17, .34),
+        inset 0 -15px 0 rgba(255, 248, 226, .95),
+        8px 9px 0 rgba(62, 25, 12, .24);
+      z-index: 4;
+    }
+
+    .roof-side {
+      position: absolute;
+      right: 5%;
+      top: 7%;
+      width: 34%;
+      height: 36%;
+      clip-path: polygon(0 0, 100% 38%, 100% 100%, 0 84%);
+      background: linear-gradient(130deg, #7e241b, #4d1713);
+      box-shadow: inset 0 -12px 0 rgba(241, 235, 211, .72);
+      z-index: 2;
     }
 
     .walls {
       position: absolute;
-      left: 16%;
+      left: 11%;
       bottom: 0;
-      width: 68%;
-      height: 66%;
-      border-radius: 7px 7px 3px 3px;
-      background: linear-gradient(115deg, #8c5934, #5f3825);
-      box-shadow: inset 0 0 0 3px rgba(51, 28, 16, 0.32);
+      width: 61%;
+      height: 68%;
+      border-radius: 10px 10px 4px 4px;
+      background:
+        radial-gradient(circle at 14% 16%, #ffe8a5 0 4%, transparent 5%),
+        radial-gradient(circle at 87% 18%, #f96067 0 4%, transparent 5%),
+        linear-gradient(115deg, #b8753f 0%, #7b472a 76%);
+      box-shadow:
+        inset -12px 0 0 rgba(69, 34, 18, .28),
+        inset 0 0 0 3px rgba(73, 39, 22, 0.35),
+        8px 9px 0 rgba(45, 22, 13, .22);
+      z-index: 3;
+    }
+
+    .walls::before {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      border-radius: 7px 7px 2px 2px;
+      border: 3px dashed rgba(255, 246, 220, .82);
+      pointer-events: none;
+    }
+
+    .side-wall {
+      position: absolute;
+      right: 9%;
+      bottom: 2%;
+      width: 28%;
+      height: 60%;
+      clip-path: polygon(0 7%, 100% 0, 100% 100%, 0 92%);
+      border-radius: 0 8px 5px 0;
+      background:
+        radial-gradient(circle at 70% 28%, #5ac9ba 0 7%, transparent 8%),
+        linear-gradient(100deg, #8a4d2d, #57301f);
+      box-shadow: inset -12px 0 0 rgba(35, 16, 9, .25);
+      z-index: 1;
     }
 
     .door {
       position: absolute;
-      left: 42%;
+      left: 40%;
       bottom: 0;
-      width: 16%;
-      height: 32%;
-      border-radius: 8px 8px 0 0;
-      background: #2c1a13;
+      width: 21%;
+      height: 36%;
+      border: 3px solid rgba(255, 235, 187, .76);
+      border-bottom: 0;
+      border-radius: 999px 999px 0 0;
+      background:
+        radial-gradient(circle at 72% 52%, #f6d45d 0 6%, transparent 7%),
+        linear-gradient(100deg, #4e2516, #26120d);
     }
 
     .window {
       position: absolute;
-      top: 38%;
-      width: 23%;
-      height: 25%;
+      top: 37%;
+      width: 24%;
+      height: 24%;
       overflow: hidden;
-      border: 3px solid #2d1c13;
-      border-radius: 5px;
+      border: 3px solid #fff0c9;
+      border-radius: 8px;
       background: #17243b;
+      box-shadow: 0 3px 0 rgba(60, 28, 16, .42);
       transition: background .35s ease, box-shadow .35s ease;
     }
 
     .window.left {
-      left: 12%;
+      left: 11%;
     }
 
     .window.right {
-      right: 12%;
+      right: 10%;
+    }
+
+    .candy-row {
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      bottom: 39%;
+      height: 8px;
+      border-radius: 999px;
+      background: repeating-linear-gradient(90deg, #fff5dd 0 9px, #e7404f 9px 18px, #54c5b4 18px 27px);
+      box-shadow: 0 2px 0 rgba(55, 27, 15, .28);
     }
 
     .party .window {
@@ -254,20 +323,39 @@
 
     .spring {
       position: relative;
-      width: 42%;
-      height: 96px;
-      margin-top: -4px;
+      width: 32%;
+      height: 112px;
+      margin-top: -7px;
       z-index: 2;
       transform-origin: 50% 100%;
+      border-radius: 50% / 10%;
+      background:
+        linear-gradient(90deg, transparent 0 18%, rgba(255, 235, 154, .28) 31%, transparent 45% 55%, rgba(86, 54, 10, .28) 82%, transparent 100%),
+        repeating-linear-gradient(180deg, transparent 0 10px, rgba(255, 222, 105, .95) 11px 17px, rgba(136, 91, 18, .92) 18px 22px, transparent 23px 31px);
+      filter: drop-shadow(0 9px 0 rgba(83, 55, 10, .35));
     }
 
     .spring::before {
       content: "";
       position: absolute;
-      inset: 0;
-      background: repeating-radial-gradient(ellipse at center, transparent 0 12px, var(--gold) 13px 17px, transparent 18px 28px);
-      filter: drop-shadow(0 4px 0 var(--gold-dark));
-      transform: rotate(90deg) scaleX(.62);
+      left: 0;
+      right: 0;
+      top: -7px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, #ffe98c 0 34%, #d7a632 36% 61%, #7d5417 63% 100%);
+      box-shadow: 0 112px 0 -1px #8b621c;
+    }
+
+    .spring::after {
+      content: "";
+      position: absolute;
+      inset: 7px 17%;
+      border-radius: 50% / 9%;
+      background: linear-gradient(90deg, rgba(255,255,255,.18), transparent 32% 70%, rgba(63, 37, 8, .32));
+      border-left: 3px solid rgba(255, 235, 130, .36);
+      border-right: 3px solid rgba(74, 47, 10, .34);
+      pointer-events: none;
     }
 
     .spring.compress {
@@ -378,10 +466,13 @@
           <div class="drift left"></div>
           <div class="drift right"></div>
           <div class="house" id="house">
+            <div class="roof-side"></div>
             <div class="roof"></div>
+            <div class="side-wall"></div>
             <div class="walls">
               <div class="window left"><div class="dancers"></div></div>
               <div class="window right"><div class="dancers"></div></div>
+              <div class="candy-row"></div>
               <div class="door"></div>
             </div>
           </div>
